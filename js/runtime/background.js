@@ -1,11 +1,28 @@
 import Sprite from '../base/sprite'
+import { PLAYER_GROUD_BOTTOM } from './../config.js'
 
 const screenWidth  = window.innerWidth
 const screenHeight = window.innerHeight
 
-const BG_IMG_SRC   = 'images/bg.jpg'
-const BG_WIDTH     = 512
-const BG_HEIGHT    = 512
+const BG_IMG_SRC   = 'images/bg2.png'
+const BG_WIDTH     = 1280
+const BG_HEIGHT    = 1024
+
+const bgRatio = BG_HEIGHT / BG_WIDTH
+const playGroudRatio = screenHeight / screenWidth
+
+let crapBgWith = BG_WIDTH
+let crapBgHeight = BG_HEIGHT
+if (playGroudRatio > bgRatio) {
+  crapBgHeight = screenHeight
+  crapBgWith = crapBgHeight / screenHeight * screenWidth
+}
+
+if (playGroudRatio < bgRatio) {
+  crapBgWith = screenWidth
+  crapBgHeight = crapBgWith / screenWidth * screenHeight
+}
+
 
 /**
  * 游戏背景类
@@ -16,15 +33,6 @@ export default class BackGround extends Sprite {
     super(BG_IMG_SRC, BG_WIDTH, BG_HEIGHT)
 
     this.render(ctx)
-
-    this.top = 0
-  }
-
-  update() {
-    this.top += 2
-
-    if ( this.top >= screenHeight )
-      this.top = 0
   }
 
   /**
@@ -38,22 +46,10 @@ export default class BackGround extends Sprite {
       this.img,
       0,
       0,
-      this.width,
-      this.height,
-      0,
-      -screenHeight + this.top,
-      screenWidth,
-      screenHeight
-    )
-
-    ctx.drawImage(
-      this.img,
+      crapBgWith,
+      crapBgHeight,
       0,
       0,
-      this.width,
-      this.height,
-      0,
-      this.top,
       screenWidth,
       screenHeight
     )

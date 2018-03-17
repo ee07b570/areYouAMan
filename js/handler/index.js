@@ -1,8 +1,10 @@
 import HandlerBtn, { DIRECTION } from './handlerBtn'
-import { HANDLER_BOTTOM_PADDIND, HANDLER_BTN_WIDTH as BTN_WIDTH } from './../config'
+import { HANDLER_BOTTOM_PADDIND, PLAYER_GROUD_BOTTOM } from './../config'
 
 const screenWidth = window.innerWidth
 const screenHeight = window.innerHeight
+
+const BTN_WIDTH = (screenHeight - PLAYER_GROUD_BOTTOM - 2 * HANDLER_BOTTOM_PADDIND) / 3
 
 const UP_BTN_IMG_SRC = 'images/hero.png'
 const DOWN_BTN_IMG_SRC = 'images/hero.png'

@@ -1,4 +1,9 @@
-export const PLAYER_GROUD_BOTTOM = 400
+const screenWidth = window.innerWidth
+const screenHeight = window.innerHeight
+
+const PLAY_GROUD_RATIO = 0.6
+
+export const PLAYER_GROUD_BOTTOM = screenHeight * PLAY_GROUD_RATIO
 export const INIT_MISSILES_NUM = 20
 
 export const PLANE_SPEED = 10
