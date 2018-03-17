@@ -8,9 +8,10 @@
 		"newFeature": true
 	},
 	"compileType": "game",
-	"libVersion": "game",
+	"libVersion": "1.9.1",
 	"appid": "touristappid",
-	"projectname": "是男人就坚持20秒（头条复刻版）",
+	"projectname": "%E6%98%AF%E7%94%B7%E4%BA%BA%E5%B0%B1%E5%9D%9A%E6%8C%8120%E7%A7%92",
+	"isGameTourist": true,
 	"condition": {
 		"search": {
 			"current": -1,
@@ -28,6 +29,5 @@
 			"current": -1,
 			"list": []
 		}
-	},
-	"isGameTourist": true
+	}
 }

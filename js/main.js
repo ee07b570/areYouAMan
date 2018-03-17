@@ -103,15 +103,11 @@ export default class Main {
     }
 
     const shareArea = this.gameinfo.shareBtnArea
-    console.log('shareArea', shareArea)
-    console.log('x',x)
-    console.log('y',y)
 
     if (x >= shareArea.startX
       && x <= shareArea.endX
       && y >= shareArea.startY
       && y <= shareArea.endY) {
-      console.log('分享')
       this.share()
       return
     }
