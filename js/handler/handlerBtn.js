@@ -1,10 +1,10 @@
 import DataBus from '../databus'
+import { HANDLER_BTN_WIDTH as BTN_WIDTH } from './../config'
 
 
 let databus = new DataBus()
 
 // 手柄相关常量设置
-export const BTN_WIDTH = 80
 export const DIRECTION = {
   UP: 'UP',
   DOWN: 'DOWN',
