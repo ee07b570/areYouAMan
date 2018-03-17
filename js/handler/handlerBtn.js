@@ -23,6 +23,9 @@ export default class HandlerBtn {
     this.x = x - BTN_WIDTH / 2
     this.y = y - BTN_WIDTH / 2
 
+    this.centerX = x;
+    this.centerY = y
+
     // 初始化事件监听
     this.initEvent()
   }
@@ -77,12 +80,28 @@ export default class HandlerBtn {
    * 将精灵图绘制在canvas上
    */
   drawToCanvas(ctx) {
+    ctx.save()
+    
+    ctx.translate(this.x, this.y)
+    if (this.direction === DIRECTION.RIGHT){
+      ctx.translate(BTN_WIDTH, 0)
+      ctx.rotate(90 * Math.PI / 180)
+    }
+    if (this.direction === DIRECTION.DOWN) {
+      ctx.translate(BTN_WIDTH, BTN_WIDTH)
+      ctx.rotate(180 * Math.PI / 180)
+    }
+    if (this.direction === DIRECTION.LEFT) {
+      ctx.translate(0, BTN_WIDTH)
+      ctx.rotate(270 * Math.PI / 180)
+    }
     ctx.drawImage(
       this.img,
-      this.x,
-      this.y,
+      0,
+      0,
       BTN_WIDTH,
       BTN_WIDTH
     )
+    ctx.restore()
   }
 }
