@@ -58,7 +58,7 @@ export default class Missile extends Sprite {
   init() {
     const fromWhere = randInitPosition()
     // 大小随机
-    const enlargeTime = rnd(1, MISSILE_ENLARGE_MAX_FACTOR)
+    const enlargeTime = Math.random() * (MISSILE_ENLARGE_MAX_FACTOR - 1) + 1
     this.width = enlargeTime * MISSILE_WIDTH
     this.height = enlargeTime * MISSILE_HEIGHT
     switch (fromWhere) {
