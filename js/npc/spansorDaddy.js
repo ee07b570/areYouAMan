@@ -1,8 +1,8 @@
 import Sprite from '../base/sprite'
 import DataBus from '../databus'
-import { PLAYER_GROUD_BOTTOM, INIT_MISSILE_SPEED, INIT_MISSILE_POSITION_SEED, MISSILE_WIDTH, MISSILE_HEIGHT } from '../config'
+import { PLAYER_GROUD_BOTTOM, INIT_SPANSOR_DADDY_SPEED, INIT_SPANSOR_DADDY_SEED, SPANSOR_DADDY_WIDTH, SPANSOR_DADDY_HEIGHT } from '../config'
 
-const MISSILE_IMG_SRC = 'images/bullet.png'
+const SPANSOR_DADDY_IMG_SRC = 'images/spansor1.png'
 
 const __ = {
   speedX: Symbol('speedX'),
@@ -21,21 +21,21 @@ const screenHeight = window.innerHeight
 
 
 function randInitPosition() {
-  return Math.floor(INIT_MISSILE_POSITION_SEED * Math.random())
+  return Math.floor(INIT_SPANSOR_DADDY_SEED * Math.random())
 }
 
 // 因为需要用于产生速度，所以不能为0
 function rnd(start, end) {
   const num = Math.floor(Math.random() * (end - start) + start)
-  if (num) {
+  if (num !== 0) {
     return num
   }
-  rnd(start, end);
+  return rnd(start, end);
 }
 
 // flag为true，返回正数，flag为false返回负数，没有参数或其他随便返回
 function speedCalculater(flag) {
-  const speed = rnd(-1 * INIT_MISSILE_SPEED, INIT_MISSILE_SPEED)
+  const speed = rnd(-1 * INIT_SPANSOR_DADDY_SPEED, INIT_SPANSOR_DADDY_SPEED)
 
   if (flag === true) {
     return Math.abs(speed)
@@ -44,15 +44,15 @@ function speedCalculater(flag) {
   if (flag === false) {
     return -1 * Math.abs(speed)
   }
-  
+
   return speed
 }
 
 let databus = new DataBus()
 
-export default class Missile extends Sprite {
+export default class SpansorDaddy extends Sprite {
   constructor() {
-    super(MISSILE_IMG_SRC, MISSILE_WIDTH, MISSILE_HEIGHT)
+    super(SPANSOR_DADDY_IMG_SRC, SPANSOR_DADDY_WIDTH, SPANSOR_DADDY_HEIGHT)
   }
 
   init() {
@@ -92,6 +92,10 @@ export default class Missile extends Sprite {
     this.visible = true
   }
 
+  getSpansorValue() {
+    return 3000
+  }
+
   // 每一帧更新子弹位置
   update() {
     this.x += this[__.speedX]
@@ -99,12 +103,29 @@ export default class Missile extends Sprite {
 
     // 超出屏幕回弹
     // 左右超出
-    if (this.x < 0 || this.x > screenWidth - this.width){
-      this[__.speedX] = -1 * this[__.speedX]
+    if (this.x < 0 || this.x > screenWidth - this.width) {
+      databus.removeSpansorDaddy(this)
     }
     // 上下超出
     if (this.y < 0 || this.y > PLAYER_GROUD_BOTTOM - this.height) {
-      this[__.speedY] = -1 * this[__.speedY]
+      databus.removeSpansorDaddy(this)
     }
+    // // 超出屏幕回弹
+    // // 左右超出
+    // if (this.x < 0 || this.x > screenWidth - this.width) {
+    //   this[__.speedX] = -1 * this[__.speedX]
+    // }
+    // // 上下超出
+    // if (this.y < 0 || this.y > PLAYER_GROUD_BOTTOM - this.height) {
+    //   this[__.speedY] = -1 * this[__.speedY]
+    // }
   }
+
+  // update() {
+  //   this.y += this[__.speed]
+
+  //   // 对象回收
+  //   if (this.y > window.innerHeight + this.height)
+  //     databus.removeEnemey(this)
+  // }
 }

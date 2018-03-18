@@ -23,8 +23,10 @@ export default class DataBus {
     this.duration   = 0
     this.animations = []
     this.gameOver   = false
+    this.gamePause  = false
     this.level      = 1
     this.missiles   = []
+    this.spansorDaddies = []
   }
 
   handleDirection(direction) {
@@ -53,15 +55,15 @@ export default class DataBus {
   //   this.pool.recover('enemy', enemy)
   // }
 
-  // /**
-  //  * 回收子弹，进入对象池
-  //  * 此后不进入帧循环
-  //  */
-  // removeBullets(bullet) {
-  //   let temp = this.bullets.shift()
+  /**
+   * 回收赞助商爸爸，进入对象池
+   * 此后不进入帧循环
+   */
+  removeSpansorDaddy(spansorDaddy) {
+    let temp = this.spansorDaddies.shift()
 
-  //   temp.visible = false
+    spansorDaddy.visible = false
 
-  //   this.pool.recover('bullet', bullet)
-  // }
+    this.pool.recover('spansorDaddy', spansorDaddy)
+  }
 }

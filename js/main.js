@@ -6,6 +6,7 @@ import DataBus from './databus'
 import Handler from './handler/index';
 import Plane from './plane/index'
 import Missile from './npc/missile'
+import SpansorDaddy from './npc/spansorDaddy'
 
 import { evaluate } from './utils/evaluation'
 
@@ -21,8 +22,22 @@ export default class Main {
   constructor() {
     // 维护当前requestAnimationFrame的id
     this.aniId = 0
-
+    this.init()
     this.restart()
+  }
+
+  init() {
+    wx.onHide(() => {
+      this.gameOver()
+    })
+  }
+
+  gameOver() {
+    const now = + new Date()
+    databus.duration = now - databus.startTime
+    databus.gameOver = true
+    this.plane.playAnimation()
+    this.music.playExplosion()
   }
 
   restart() {
@@ -65,9 +80,20 @@ export default class Main {
 
   missileGenerate() {
     if (databus.frame % 30 === 0) {
-      let missile = databus.pool.getItemByClass('missile', Missile)
-      missile.init()
-      databus.missiles.push(missile)
+      this.addMissiles(1)
+    }
+  }
+
+  /**
+   * 随着帧数变化的敌机生成逻辑
+   * 帧数取模定义成生成的频率
+   */
+  spansorDaddyGenerate() {
+    // TODO: 写成随机的
+    if (databus.frame % 300 === 0) {
+      let spansorDaddy = databus.pool.getItemByClass('spansorDaddy', SpansorDaddy)
+      spansorDaddy.init()
+      databus.spansorDaddies.push(spansorDaddy)
     }
   }
 
@@ -76,11 +102,15 @@ export default class Main {
     let that = this
     databus.missiles.forEach((missile) => {
       if (this.plane.isCollideWith(missile)) {
-        const now = + new Date()
-        databus.duration = now - databus.startTime
-        databus.gameOver = true
-        this.plane.playAnimation()
-        this.music.playExplosion()
+        this.gameOver()
+      }
+    })
+
+    databus.spansorDaddies.forEach((spansorDaddy) => {
+      if (this.plane.isCollideWith(spansorDaddy)) {
+        // that.music.playSpansorDaddy()
+        databus.startTime -= spansorDaddy.getSpansorValue()
+        spansorDaddy.visible = false
       }
     })
   }
@@ -143,9 +173,12 @@ export default class Main {
     this.plane.drawToCanvas(ctx)
 
     databus.missiles
+      .concat(databus.spansorDaddies)
       .forEach((item) => {
         item.drawToCanvas(ctx)
       })
+
+    // console.log(databus.spansorDaddies)
 
     databus.animations.forEach((ani) => {
       if (ani.isPlaying) {
@@ -178,11 +211,13 @@ export default class Main {
       return;
 
     databus.missiles
+      .concat(databus.spansorDaddies)
       .forEach((item) => {
         item.update()
       })
 
     this.missileGenerate()
+    this.spansorDaddyGenerate()
 
     this.collisionDetection()
 

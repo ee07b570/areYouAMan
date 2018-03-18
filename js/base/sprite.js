@@ -37,15 +37,33 @@ export default class Sprite {
    * @param{Sprite} sp: Sptite的实例
    */
   isCollideWith(sp) {
+    // let spX = sp.x + sp.width / 2
+    // let spY = sp.y + sp.height / 2
+
+    // if ( !this.visible || !sp.visible )
+    //   return false
+
+    // return !!(   spX >= this.x
+    //           && spX <= this.x + this.width
+    //           && spY >= this.y
+    //           && spY <= this.y + this.height  )
+
+    if ( !this.visible || !sp.visible ){
+      return false
+    }
+    
     let spX = sp.x + sp.width / 2
     let spY = sp.y + sp.height / 2
+    // console.log('sp.width', sp.width, 'sp.height', sp.height)
+    const yDiff = this.y + this.height / 2 - spY
+    const xDiff = this.x + this.width / 2  - spX
 
-    if ( !this.visible || !sp.visible )
-      return false
+    
+    const locationDiff = yDiff * yDiff + xDiff * xDiff
 
-    return !!(   spX >= this.x
-              && spX <= this.x + this.width
-              && spY >= this.y
-              && spY <= this.y + this.height  )
+    const radiusDiff = (this.width + sp.width) * (this.width + sp.width) / 4
+   
+
+    return radiusDiff >= locationDiff
   }
 }
