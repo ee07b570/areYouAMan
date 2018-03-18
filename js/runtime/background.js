@@ -5,8 +5,8 @@ const screenWidth  = window.innerWidth
 const screenHeight = window.innerHeight
 
 const BG_IMG_SRC   = 'images/bg.png'
-const BG_WIDTH = 750
-const BG_HEIGHT = 1334
+const BG_WIDTH = 2250
+const BG_HEIGHT = 4002
 
 const bgRatio = BG_HEIGHT / BG_WIDTH
 const playGroudRatio = screenHeight / screenWidth

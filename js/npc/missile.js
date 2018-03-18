@@ -1,6 +1,6 @@
 import Sprite from '../base/sprite'
 import DataBus from '../databus'
-import { PLAYER_GROUD_BOTTOM, INIT_MISSILE_SPEED, INIT_MISSILE_POSITION_SEED, MISSILE_WIDTH, MISSILE_HEIGHT } from '../config'
+import { PLAYER_GROUD_BOTTOM, INIT_MISSILE_SPEED, INIT_MISSILE_POSITION_SEED, MISSILE_WIDTH, MISSILE_HEIGHT, MISSILE_ENLARGE_MAX_FACTOR } from '../config'
 
 const MISSILE_IMG_SRC = 'images/bullet.png'
 
@@ -57,6 +57,10 @@ export default class Missile extends Sprite {
 
   init() {
     const fromWhere = randInitPosition()
+    // 大小随机
+    const enlargeTime = rnd(1, MISSILE_ENLARGE_MAX_FACTOR)
+    this.width = enlargeTime * MISSILE_WIDTH
+    this.height = enlargeTime * MISSILE_HEIGHT
     switch (fromWhere) {
       case DIRECTION.TOP:
         this.x = rnd(0, screenWidth - this.width)
