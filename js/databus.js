@@ -26,7 +26,7 @@ export default class DataBus {
     this.gamePause  = false
     this.level      = 1
     this.missiles   = []
-    this.spansorDaddies = []
+    this.sponsorDaddies = []
   }
 
   handleDirection(direction) {
@@ -59,11 +59,11 @@ export default class DataBus {
    * 回收赞助商爸爸，进入对象池
    * 此后不进入帧循环
    */
-  removeSpansorDaddy(spansorDaddy) {
-    let temp = this.spansorDaddies.shift()
+  removeSponsorDaddy(sponsorDaddy) {
+    let temp = this.sponsorDaddies.shift()
 
-    spansorDaddy.visible = false
+    sponsorDaddy.visible = false
 
-    this.pool.recover('spansorDaddy', spansorDaddy)
+    this.pool.recover('sponsorDaddy', sponsorDaddy)
   }
 }

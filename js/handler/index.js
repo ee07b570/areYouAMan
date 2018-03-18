@@ -6,10 +6,10 @@ const screenHeight = window.innerHeight
 
 const BTN_WIDTH = (screenHeight - PLAYER_GROUD_BOTTOM - 2 * HANDLER_BOTTOM_PADDIND) / 3
 
-const UP_BTN_IMG_SRC = 'images/hero.png'
-const DOWN_BTN_IMG_SRC = 'images/hero.png'
-const LEFT_BTN_IMG_SRC = 'images/hero.png'
-const RIGHT_BTN_IMG_SRC = 'images/hero.png'
+const UP_BTN_IMG_SRC = 'images/handler_btn_up.png'
+const DOWN_BTN_IMG_SRC = 'images/handler_btn_up.png'
+const LEFT_BTN_IMG_SRC = 'images/handler_btn_up.png'
+const RIGHT_BTN_IMG_SRC = 'images/handler_btn_up.png'
 
 export default class Handler {
   constructor() {

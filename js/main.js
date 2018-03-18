@@ -6,7 +6,7 @@ import DataBus from './databus'
 import Handler from './handler/index';
 import Plane from './plane/index'
 import Missile from './npc/missile'
-import SpansorDaddy from './npc/spansorDaddy'
+import SponsorDaddy from './npc/sponsorDaddy'
 
 import { evaluate } from './utils/evaluation'
 
@@ -88,12 +88,12 @@ export default class Main {
    * 随着帧数变化的敌机生成逻辑
    * 帧数取模定义成生成的频率
    */
-  spansorDaddyGenerate() {
+  sponsorDaddyGenerate() {
     // TODO: 写成随机的
     if (databus.frame % 300 === 0) {
-      let spansorDaddy = databus.pool.getItemByClass('spansorDaddy', SpansorDaddy)
-      spansorDaddy.init()
-      databus.spansorDaddies.push(spansorDaddy)
+      let sponsorDaddy = databus.pool.getItemByClass('sponsorDaddy', SponsorDaddy)
+      sponsorDaddy.init()
+      databus.sponsorDaddies.push(sponsorDaddy)
     }
   }
 
@@ -106,11 +106,11 @@ export default class Main {
       }
     })
 
-    databus.spansorDaddies.forEach((spansorDaddy) => {
-      if (this.plane.isCollideWith(spansorDaddy)) {
-        // that.music.playSpansorDaddy()
-        databus.startTime -= spansorDaddy.getSpansorValue()
-        spansorDaddy.visible = false
+    databus.sponsorDaddies.forEach((sponsorDaddy) => {
+      if (this.plane.isCollideWith(sponsorDaddy)) {
+        that.music.playSponse()
+        databus.startTime -= sponsorDaddy.getSponsorValue()
+        sponsorDaddy.visible = false
       }
     })
   }
@@ -173,12 +173,12 @@ export default class Main {
     this.plane.drawToCanvas(ctx)
 
     databus.missiles
-      .concat(databus.spansorDaddies)
+      .concat(databus.sponsorDaddies)
       .forEach((item) => {
         item.drawToCanvas(ctx)
       })
 
-    // console.log(databus.spansorDaddies)
+    // console.log(databus.sponsorDaddies)
 
     databus.animations.forEach((ani) => {
       if (ani.isPlaying) {
@@ -211,13 +211,13 @@ export default class Main {
       return;
 
     databus.missiles
-      .concat(databus.spansorDaddies)
+      .concat(databus.sponsorDaddies)
       .forEach((item) => {
         item.update()
       })
 
     this.missileGenerate()
-    this.spansorDaddyGenerate()
+    this.sponsorDaddyGenerate()
 
     this.collisionDetection()
 

@@ -1,8 +1,8 @@
 import Sprite from '../base/sprite'
 import DataBus from '../databus'
-import { PLAYER_GROUD_BOTTOM, INIT_SPANSOR_DADDY_SPEED, INIT_SPANSOR_DADDY_SEED, SPANSOR_DADDY_WIDTH, SPANSOR_DADDY_HEIGHT } from '../config'
+import { PLAYER_GROUD_BOTTOM, INIT_SPONSOR_DADDY_SPEED, INIT_SPONSOR_DADDY_SEED, SPONSOR_DADDY_WIDTH, SPONSOR_DADDY_HEIGHT } from '../config'
 
-const SPANSOR_DADDY_IMG_SRC = 'images/spansor1.png'
+const SPONSOR_DADDY_IMG_SRC = 'images/sponsorDaddy.png'
 
 const __ = {
   speedX: Symbol('speedX'),
@@ -21,7 +21,7 @@ const screenHeight = window.innerHeight
 
 
 function randInitPosition() {
-  return Math.floor(INIT_SPANSOR_DADDY_SEED * Math.random())
+  return Math.floor(INIT_SPONSOR_DADDY_SEED * Math.random())
 }
 
 // 因为需要用于产生速度，所以不能为0
@@ -35,7 +35,7 @@ function rnd(start, end) {
 
 // flag为true，返回正数，flag为false返回负数，没有参数或其他随便返回
 function speedCalculater(flag) {
-  const speed = rnd(-1 * INIT_SPANSOR_DADDY_SPEED, INIT_SPANSOR_DADDY_SPEED)
+  const speed = rnd(-1 * INIT_SPONSOR_DADDY_SPEED, INIT_SPONSOR_DADDY_SPEED)
 
   if (flag === true) {
     return Math.abs(speed)
@@ -50,9 +50,9 @@ function speedCalculater(flag) {
 
 let databus = new DataBus()
 
-export default class SpansorDaddy extends Sprite {
+export default class SponsorDaddy extends Sprite {
   constructor() {
-    super(SPANSOR_DADDY_IMG_SRC, SPANSOR_DADDY_WIDTH, SPANSOR_DADDY_HEIGHT)
+    super(SPONSOR_DADDY_IMG_SRC, SPONSOR_DADDY_WIDTH, SPONSOR_DADDY_HEIGHT)
   }
 
   init() {
@@ -92,7 +92,7 @@ export default class SpansorDaddy extends Sprite {
     this.visible = true
   }
 
-  getSpansorValue() {
+  getSponsorValue() {
     return 3000
   }
 
@@ -104,11 +104,11 @@ export default class SpansorDaddy extends Sprite {
     // 超出屏幕回弹
     // 左右超出
     if (this.x < 0 || this.x > screenWidth - this.width) {
-      databus.removeSpansorDaddy(this)
+      databus.removeSponsorDaddy(this)
     }
     // 上下超出
     if (this.y < 0 || this.y > PLAYER_GROUD_BOTTOM - this.height) {
-      databus.removeSpansorDaddy(this)
+      databus.removeSponsorDaddy(this)
     }
     // // 超出屏幕回弹
     // // 左右超出

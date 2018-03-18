@@ -4,9 +4,9 @@ import { PLAYER_GROUD_BOTTOM } from './../config.js'
 const screenWidth  = window.innerWidth
 const screenHeight = window.innerHeight
 
-const BG_IMG_SRC   = 'images/bg2.png'
-const BG_WIDTH     = 1280
-const BG_HEIGHT    = 1024
+const BG_IMG_SRC   = 'images/bg.png'
+const BG_WIDTH = 750
+const BG_HEIGHT = 1334
 
 const bgRatio = BG_HEIGHT / BG_WIDTH
 const playGroudRatio = screenHeight / screenWidth

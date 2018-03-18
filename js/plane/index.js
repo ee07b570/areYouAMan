@@ -8,7 +8,7 @@ const screenWidth = window.innerWidth
 const screenHeight = window.innerHeight
 
 // 玩家相关常量设置
-const PLANE_IMG_SRC = 'images/hero.png'
+const PLANE_IMG_SRC = 'images/UFO.png'
 const SPEED = PLANE_SPEED
 
 const databus = new DataBus()
