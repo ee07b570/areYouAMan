@@ -3,7 +3,6 @@ import GameInfo from './runtime/gameinfo'
 import Music from './runtime/music'
 import DataBus from './databus'
 
-import Handler from './handler/index';
 import Plane from './plane/index'
 import Missile from './npc/missile'
 import SponsorDaddy from './npc/sponsorDaddy'
@@ -52,7 +51,7 @@ export default class Main {
     this.gameinfo = new GameInfo()
     this.music = new Music()
 
-    this.handler = new Handler()
+    // this.handler = new Handler()
     this.plane = new Plane()
 
     this.addMissiles(INIT_MISSILES_NUM)
@@ -169,7 +168,7 @@ export default class Main {
 
     this.bg.render(ctx)
 
-    this.handler.render(ctx)
+    // this.handler.render(ctx)
     this.plane.drawToCanvas(ctx)
 
     databus.missiles

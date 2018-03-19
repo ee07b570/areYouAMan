@@ -30,7 +30,7 @@ if (playGroudRatio < bgRatio) {
  */
 export default class BackGround extends Sprite {
   constructor(ctx) {
-    super(BG_IMG_SRC, BG_WIDTH, BG_HEIGHT)
+    super(BG_IMG_SRC, screenWidth, screenHeight)
 
     this.render(ctx)
   }

@@ -1,6 +1,6 @@
 import Sprite from '../base/sprite'
 import DataBus from '../databus'
-import { PLAYER_GROUD_BOTTOM, INIT_MISSILE_SPEED, INIT_MISSILE_POSITION_SEED, MISSILE_WIDTH, MISSILE_HEIGHT, MISSILE_ENLARGE_MAX_FACTOR } from '../config'
+import { PLAYER_GROUD_BOTTOM, INIT_MISSILE_SPEED, INIT_MISSILE_POSITION_SEED, MISSILE_WIDTH, MISSILE_HEIGHT, MISSILE_ENLARGE_MAX_FACTOR, MISSILE_TAILING_FACTOR } from '../config'
 
 const MISSILE_IMG_SRC = 'images/bullet.png'
 
@@ -43,6 +43,10 @@ function speedCalculater(flag) {
 
   if (flag === false) {
     return -1 * Math.abs(speed)
+  }
+
+  if (speed > 0.99 * INIT_MISSILE_SPEED) {
+    return rnd(-1 * INIT_MISSILE_SPEED * 10, INIT_MISSILE_SPEED * 10)
   }
   
   return speed
@@ -96,8 +100,51 @@ export default class Missile extends Sprite {
     this.visible = true
   }
 
+  reviseSpeed() {
+    const diffY = databus.planePos.y - this.y
+    const diffX = databus.planePos.x - this.x
+    if (diffY === 0 || diffX === 0) return
+    // const distance = (databus.planePos.x - this.x) * (databus.planePos.x - this.x) + (databus.planePos.y - this.y) * (databus.planePos.y - this.y)
+
+    // const g = MISSILE_TAILING_FACTOR / distance
+
+    // this[__.speedX] += g * (databus.planePos.x - this.x)
+    // this[__.speedY] += g * (databus.planePos.y - this.y)
+
+    // const speedSquare = this[__.speedX] * this[__.speedX] + this[__.speedY] * this[__.speedY]
+    
+    const theta = Math.asin(this[__.speedY] / this[__.speedX])
+    console.log(theta)
+    const newTheta = Math.PI / 2 + theta;
+    const tempSpeedX = 3 / (Math.sin(newTheta) * Math.sin(newTheta) + 1)
+    const tempSpeedY = 3 / (Math.cos(newTheta) * Math.cos(newTheta) + 1)
+    // console.log(tempSpeedX)
+
+
+    // const 
+    // 顺势针
+    // if (rnd(-1, 1) > 0) {
+    //   this[__.speedX] += tempSpeedX
+    //   this[__.speedY] -= tempSpeedY
+    //   return
+    // }
+    
+
+    
+
+    // 逆时针
+    // if (diffY > 0 && diffX > 0) {
+      this[__.speedX] += tempSpeedX
+      this[__.speedY] -= tempSpeedY
+    // }
+
+  }
+
   // 每一帧更新子弹位置
   update() {
+
+    // this.reviseSpeed()
+
     this.x += this[__.speedX]
     this.y += this[__.speedY]
 

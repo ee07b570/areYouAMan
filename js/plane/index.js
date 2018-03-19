@@ -1,7 +1,6 @@
 // import Sprite from '../base/sprite'
 import Animation from '../base/animation'
-import { DIRECTION } from '../handler/handlerBtn'
-import { PLAYER_GROUD_BOTTOM, PLANE_SPEED, PLANE_WIDTH, PLANE_HEIGHT } from '../config'
+import { PLAYER_GROUD_BOTTOM, PLANE_WIDTH, PLANE_HEIGHT } from '../config'
 import DataBus from '../databus'
 
 const screenWidth = window.innerWidth
@@ -9,7 +8,6 @@ const screenHeight = window.innerHeight
 
 // 玩家相关常量设置
 const PLANE_IMG_SRC = 'images/UFO.png'
-const SPEED = PLANE_SPEED
 
 const databus = new DataBus()
 
@@ -22,11 +20,20 @@ export default class Plane extends Animation {
     this.y = PLAYER_GROUD_BOTTOM / 2 - this.height / 2
 
     this.initExplosionAnimation()
+
+    // 用于记录手势初始的位置
+    this.lastTouchPos = {
+      x: 0,
+      y: 0
+    }
+
+    // 初始化事件监听
+    this.initEvent()
   }
 
   // 预定义爆炸的帧动画
   initExplosionAnimation() {
-    let frames = [] 
+    let frames = []
     const EXPLO_IMG_PREFIX = 'images/explosion'
     const EXPLO_FRAME_COUNT = 19
 
@@ -37,46 +44,71 @@ export default class Plane extends Animation {
     this.initFrames(frames)
   }
 
-  /**
-   * 设置飞机位置
-   */
-  setPlanePosition() {
+  setLastTouchPosition(e) {
+    let x = e.touches[0].clientX
+    let y = e.touches[0].clientY
 
-    if (databus.gameOver) {
-      return
-    }
+    this.lastTouchPos = { x, y }
+  }
 
-    if (databus[DIRECTION.UP]) {
-      this.y -= SPEED
-    }
+  setPlanePos(e){
+    const newX = e.touches[0].clientX
+    const newY = e.touches[0].clientY
 
-    if (databus[DIRECTION.DOWN]) {
-      this.y += SPEED
-    }
+    const { x, y } = this.lastTouchPos
 
-    if (databus[DIRECTION.LEFT]) {
-      this.x -= SPEED
-    }
+    const diffX = newX - x;
+    const diffY = newY - y;
 
-    if (databus[DIRECTION.RIGHT]) {
-      this.x += SPEED
-    }
-
-    if (this.x < 0)
+    this.x = this.x + diffX
+    if (this.x < 0) {
       this.x = 0
+    }
+    if (this.x > screenWidth - this.width / 2) {
+      this.x = screenWidth - this.width / 2
+    }
 
-    else if (this.x > screenWidth - this.width)
-      this.x = screenWidth - this.width
-
-    if (this.y <= 0)
+    this.y = this.y + diffY
+    if (this.y < 0) {
       this.y = 0
+    }
+    if (this.y > PLAYER_GROUD_BOTTOM - this.height / 2) {
+      this.x = PLAYER_GROUD_BOTTOM - this.height / 2
+    }
+  }
 
-    else if (this.y > PLAYER_GROUD_BOTTOM - this.height)
-      this.y = PLAYER_GROUD_BOTTOM - this.height
+  sendPosToDatabus() {
+    databus.planePos = {
+      x: this.x,
+      y: this.y
+    }
+  }
+
+  /**
+   * 玩家响应手指的触摸事件
+   * 改变战机的位置
+   */
+  initEvent() {
+    canvas.addEventListener('touchstart', ((e) => {
+
+      e.preventDefault()
+      this.setLastTouchPosition(e)
+
+    }).bind(this))
+
+    canvas.addEventListener('touchmove', ((e) => {
+      e.preventDefault()
+      this.setPlanePos(e)
+      this.setLastTouchPosition(e)
+    }).bind(this))
+
+    canvas.addEventListener('touchend', ((e) => {
+      e.preventDefault()
+    }).bind(this))
   }
 
   drawToCanvas(ctx) {
-    this.setPlanePosition()
+    this.sendPosToDatabus()
     super.drawToCanvas(ctx)
   }
 }

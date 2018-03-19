@@ -1,6 +1,12 @@
 import Pool from './base/pool'
 
-let instance
+import { PLAYER_GROUD_BOTTOM } from './config.js'
+
+const screenWidth = window.innerWidth
+const screenHeight = window.innerHeight
+
+
+let instance = this
 
 /**
  * 全局状态管理器
@@ -27,20 +33,12 @@ export default class DataBus {
     this.level      = 1
     this.missiles   = []
     this.sponsorDaddies = []
-  }
 
-  handleDirection(direction) {
-    if (this[direction]) {
-      return;
+    // 只是初始值，不需要太精确
+    this.planePos   = {
+      x: screenWidth / 2,
+      y: PLAYER_GROUD_BOTTOM / 2
     }
-    this[direction] = true
-  }
-
-  handleOffDirection(direction) {
-    if (!this[direction]) {
-      return;
-    }
-    this[direction] = false
   }
 
   // /**
