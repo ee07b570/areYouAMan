@@ -23,12 +23,13 @@ export default class Plane extends Animation {
 
     // 用于记录手势初始的位置
     this.lastTouchPos = {
-      x: 0,
-      y: 0
+      x: screenWidth / 2 - this.width / 2,
+      y: PLAYER_GROUD_BOTTOM / 2 - this.height / 2
     }
 
     // 初始化事件监听
     this.initEvent()
+    this.touched = false
   }
 
   // 预定义爆炸的帧动画
@@ -92,17 +93,20 @@ export default class Plane extends Animation {
     canvas.addEventListener('touchstart', ((e) => {
 
       e.preventDefault()
+      this.touched = true
       this.setLastTouchPosition(e)
 
     }).bind(this))
 
     canvas.addEventListener('touchmove', ((e) => {
       e.preventDefault()
+      if (!this.touched) return
       this.setPlanePos(e)
       this.setLastTouchPosition(e)
     }).bind(this))
 
     canvas.addEventListener('touchend', ((e) => {
+      this.touched = false
       e.preventDefault()
     }).bind(this))
   }
